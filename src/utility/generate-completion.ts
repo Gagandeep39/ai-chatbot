@@ -5,7 +5,7 @@ export const generateCompletion = async (prompt: string): Promise<string> => {
     model: 'text-davinci-001',
     prompt,
     temperature: 0.4,
-    max_tokens: 64,
+    max_tokens: 2000,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
