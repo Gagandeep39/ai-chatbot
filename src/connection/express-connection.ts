@@ -43,7 +43,7 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
   let phone_number_id = reqMessageObject.metadata.phone_number_id;
   let from = reqMessageObject.messages[0].from; // extract the phone number from the webhook payload
   let msg_body = reqMessageObject.messages[0].text.body; // extract the message text from the webhook payload
-  let text = await generateCompletion(msg_body);
+  let body = await generateCompletion(msg_body);
 
   const ackData = {
     messaging_product: 'whatsapp',
@@ -53,9 +53,9 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
   const resData = {
     messaging_product: 'whatsapp',
     to: from,
-    text,
+    text: { body },
   };
-  const url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages?access_token=${token}`;
+  const url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
   const headers = {
     headers: {
       'Content-Type': 'application/json',
