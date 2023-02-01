@@ -1,5 +1,4 @@
 import axios from 'axios';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 import body_parser from 'body-parser';
 import express, { Request, Response } from 'express';
 import { generateCompletion } from '../utility/generate-completion';
@@ -57,9 +56,15 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
     text,
   };
   const url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages?access_token=${token}`;
+  const headers = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
   // Mark as read
-  axios.post(url, ackData);
+  axios.post(url, ackData, headers);
   // Respond
-  axios.post(url, resData);
+  axios.post(url, resData, headers);
   res.sendStatus(200);
 });
