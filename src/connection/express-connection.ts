@@ -48,7 +48,7 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
   const ackData = {
     messaging_product: 'whatsapp',
     status: 'read',
-    message_id: req.body.entry[0].id,
+    message_id: reqMessageObject.messages[0].id,
   };
   const resData = {
     messaging_product: 'whatsapp',
