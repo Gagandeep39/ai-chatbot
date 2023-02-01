@@ -1,4 +1,5 @@
 require('dotenv').config();
+import { expressServer } from './src/connection/express-connection';
 import { telegramBot } from './src/connection/telegram-connection';
 import { responseUsingOpenAi } from './src/utility/telegram-interaction';
 
@@ -15,3 +16,5 @@ telegramBot.use(async (ctx, next) => {
 telegramBot.on('message', responseUsingOpenAi);
 telegramBot.launch();
 console.log('Started Telegram telegramBot');
+
+expressServer.listen(process.env.PORT || 1337, () => console.log('Whats App webhook is listening'));
