@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["Chat Bot"],
+  "keywords": [
+    "Chat Bot"
+  ],
   "author": "Gagandeep Singh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "telegraf": "^4.11.2"
+  }
 }
