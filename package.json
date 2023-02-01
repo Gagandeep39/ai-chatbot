@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.16",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
     "concurrently": "^7.6.0",
     "nodemon": "^2.0.20",
