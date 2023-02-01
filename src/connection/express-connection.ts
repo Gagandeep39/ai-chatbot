@@ -41,6 +41,12 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
 
   const reqMessageObject = req.body.entry[0].changes[0].value;
   let phone_number_id = reqMessageObject.metadata.phone_number_id;
+
+  // When the input is not a message
+  if (!reqMessageObject.messages) {
+    res.status(200).send('No message found');
+    return;
+  }
   let from = reqMessageObject.messages[0].from; // extract the phone number from the webhook payload
   let msg_body = reqMessageObject.messages[0].text.body; // extract the message text from the webhook payload
   let body = await generateCompletion(msg_body);
