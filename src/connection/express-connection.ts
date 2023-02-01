@@ -1,4 +1,5 @@
 import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 import body_parser from 'body-parser';
 import express, { Request, Response } from 'express';
 import { generateCompletion } from '../utility/generate-completion';
@@ -44,12 +45,21 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
   let from = reqMessageObject.messages[0].from; // extract the phone number from the webhook payload
   let msg_body = reqMessageObject.messages[0].text.body; // extract the message text from the webhook payload
   let text = await generateCompletion(msg_body);
-  const data = {
+
+  const ackData = {
+    messaging_product: 'whatsapp',
+    status: 'read',
+    message_id: req.body.entry[0].id,
+  };
+  const resData = {
     messaging_product: 'whatsapp',
     to: from,
     text,
   };
   const url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages?access_token=${token}`;
-  axios.post(url, data);
+  // Mark as read
+  axios.post(url, ackData);
+  // Respond
+  axios.post(url, resData);
   res.sendStatus(200);
 });
