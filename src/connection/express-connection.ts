@@ -49,9 +49,7 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
     to: from,
     text,
   };
-  axios.post(
-    `https://graph.facebook.com/v15.0/${phone_number_id}/messages?access_token=${token}`,
-    data
-  );
+  const url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages?access_token=${token}`;
+  axios.post(url, data);
   res.sendStatus(200);
 });
