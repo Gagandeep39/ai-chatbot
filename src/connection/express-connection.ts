@@ -1,6 +1,7 @@
 import axios from 'axios';
 import body_parser from 'body-parser';
 import express, { Request, Response } from 'express';
+import { WhatsApp } from '../models/whatsapp';
 import { generateCompletion } from '../utility/generate-completion';
 export const expressServer = express().use(body_parser.json()); // creates express http server
 
@@ -37,17 +38,21 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
   const token = process.env.WHATSAPP_TOKEN;
 
   // Check the Incoming webhook message
-  console.log(JSON.stringify(req.body, null, 2));
+  // console.log(JSON.stringify(req.body, null, 2));
+  let msgObj = req.body as WhatsApp;
+  const reqMessageObject = msgObj.entry[0].changes[0].value;
 
-  const reqMessageObject = req.body.entry[0].changes[0].value;
+  // Is Server Side Text
+  if (reqMessageObject.statuses || !reqMessageObject.messages)
+    return res.status(200).send('No message found');
+  // Is Emoji Reaction from User
+  if (reqMessageObject.messages[0].type === 'reaction')
+    return res.status(200).send('No message found');
+
   let phone_number_id = reqMessageObject.metadata.phone_number_id;
 
-  // When the input is not a message
-  if (!reqMessageObject.messages) {
-    return res.status(200).send('No message found');
-  }
   let from = reqMessageObject.messages[0].from; // extract the phone number from the webhook payload
-  let msg_body = reqMessageObject.messages[0].text.body; // extract the message text from the webhook payload
+  let msg_body = reqMessageObject.messages[0].text!.body; // extract the message text from the webhook payload
   let body = await generateCompletion(msg_body);
 
   const ackData = {
