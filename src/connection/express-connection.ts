@@ -73,8 +73,8 @@ expressServer.post('/webhook', async (req: Request, res: Response) => {
     },
   };
   // Mark as read
-  axios.post(url, ackData, headers);
+  axios.post(url, ackData, headers).catch((err) => console.log('Error marking as read'));
   // Respond
-  axios.post(url, resData, headers);
+  axios.post(url, resData, headers).catch((err) => console.log('Error Responding to User'));
   res.sendStatus(200);
 });
