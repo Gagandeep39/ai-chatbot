@@ -1,4 +1,3 @@
-import { TelegramError } from 'telegraf';
 import { telegramBot } from '../connection/telegram-connection';
 import { responseUsingOpenAi } from '../utility/telegram-interaction';
 
@@ -15,7 +14,7 @@ export function initializeTelegram() {
   // Repond to any geral text
   telegramBot.on('message', responseUsingOpenAi).catch((err, ctx) => {
     console.log(err);
-    return ctx.reply('Error Processing Request');
+    ctx.reply('Error Processing Request');
   });
   telegramBot.launch();
   console.log('Started Telegram telegramBot');
