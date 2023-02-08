@@ -12,9 +12,13 @@ export function initializeTelegram() {
     console.log('Response time: %sms', ms);
   });
   // Repond to any geral text
-  telegramBot.on('message', responseUsingOpenAi).catch((err, ctx) => {
-    console.log(err);
-    ctx.reply('Error Processing Request');
+  telegramBot.on('message', (ctx) => {
+    try {
+      return responseUsingOpenAi(ctx);
+    } catch (error) {
+      console.log(error);
+      return ctx.reply('Error Processing Request');
+    }
   });
   telegramBot.launch();
   console.log('Started Telegram telegramBot');
