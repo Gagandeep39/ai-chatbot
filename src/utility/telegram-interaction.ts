@@ -7,7 +7,7 @@ export const responseUsingOpenAi = async (ctx: any) => {
   if (res.length > 2000) {
     res =
       res.split('').splice(0, 2000).join('') +
-      '\nTelegram Limit Exceeded. Original Text Length: ' +
+      '\nTelegram Limit Exceeded.\nOriginal Text Length: ' +
       res.length;
   }
 
