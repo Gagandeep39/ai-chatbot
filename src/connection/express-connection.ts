@@ -5,6 +5,10 @@ import { WhatsApp } from '../models/whatsapp';
 import { generateCompletion } from '../utility/generate-completion';
 export const expressServer = express().use(body_parser.json()); // creates express http server
 
+expressServer.get('/ping', (req: Request, res: Response) => {
+  res.status(200).send('App is up and running');
+})
+
 // Accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
 // info on verification request payload: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests
 expressServer.get('/webhook', (req: Request, res: Response) => {
